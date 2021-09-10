@@ -7,7 +7,6 @@ def main():
     # Считываю картинку, и сохраняю в директорию зелёный канал в качестве изображения
     image = cv.imread('python_image.jpg')
     green_channel = cv.split(image)[1]
-    cv.imwrite('green_channel.jpg', green_channel)
 
     fig, ax = plt.subplots()
     ax.imshow(green_channel, cmap='gray')
@@ -23,16 +22,16 @@ def main():
     thresh = np.ubyte((max_pixel_value - min_pixel_value) / 2)
     clone1.fill(thresh)
     clone2.fill(0)
-    cv.compare(green_channel, clone1, cv.CMP_GE, clone2)
+    image_mask = cv.compare(src1=green_channel, src2=clone1, cmpop=cv.CMP_GE)
 
     # Итоговое изображение
-    image_mask = cv.subtract(green_channel, thresh/2, clone2)
+    final_output = cv.subtract(src1=green_channel, src2=thresh/2, mask=image_mask)
 
     # Картинка без зелёного цвета
-    # image_mask = cv.subtract(image, thresh/2, clone2)
+    # final_output = cv.subtract(src1=image, src2=thresh/2)
 
     fig, ax = plt.subplots()
-    ax.imshow(image_mask, cmap='gray')
+    ax.imshow(final_output, cmap='gray')
     plt.show()
 
 
