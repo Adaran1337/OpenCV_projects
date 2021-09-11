@@ -27,9 +27,11 @@ def main():
     # Итоговое изображение
     final_output = cv.subtract(src1=green_channel, src2=thresh/2, mask=image_mask)
 
-    # Картинка без зелёного цвета
-    # final_output = cv.subtract(src1=image, src2=thresh/2)
+    # Картинка в зелёном цвете
+    # final_output = cv.subtract(src1=image, src2=thresh/2, mask=image_mask)
 
+    # Конвертирую цвет из BGR в RGB, для корректного вывода в matplotlib
+    final_output = cv.cvtColor(final_output, cv.COLOR_BGR2RGB)
     fig, ax = plt.subplots()
     ax.imshow(final_output, cmap='gray')
     plt.show()
